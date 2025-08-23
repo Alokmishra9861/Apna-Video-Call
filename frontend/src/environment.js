@@ -1,7 +1,8 @@
-let IS_PROD = true;
+// Use named export for SERVER_URL and default export for compatibility.
+const IS_PROD = true;
 
-const server = IS_PROD
+export const SERVER_URL = IS_PROD
   ? "https://apnacollegebackend-fnby.onrender.com"
   : "http://localhost:8000";
 
-export default server;
+export default SERVER_URL;

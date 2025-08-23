@@ -11,9 +11,7 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import ScreenShareIcon from "@mui/icons-material/ScreenShare";
 import StopScreenShareIcon from "@mui/icons-material/StopScreenShare";
 import ChatIcon from "@mui/icons-material/Chat";
-import server from "../environment";
-
-const server_Url = server.prod;
+import { SERVER_URL } from "../environment";
 
 var connections = {};
 
@@ -311,7 +309,8 @@ export default function VideoMeetComponent() {
   };
 
   let connectToSocketServer = () => {
-    socketRef.current = io.connect(server_Url, { secure: false });
+    // Use SERVER_URL from environment.js
+    socketRef.current = io.connect(SERVER_URL, { secure: false });
 
     socketRef.current.on("signal", gotMessageFromServer);
 
@@ -525,15 +524,12 @@ export default function VideoMeetComponent() {
 
                 <div className={styles.chattingDisplay}>
                   {messages.length !== 0 ? (
-                    messages.map((item, index) => {
-                      console.log(messages);
-                      return (
-                        <div style={{ marginBottom: "20px" }} key={index}>
-                          <p style={{ fontWeight: "bold" }}>{item.sender}</p>
-                          <p>{item.data}</p>
-                        </div>
-                      );
-                    })
+                    messages.map((item, index) => (
+                      <div style={{ marginBottom: "20px" }} key={index}>
+                        <p style={{ fontWeight: "bold" }}>{item.sender}</p>
+                        <p>{item.data}</p>
+                      </div>
+                    ))
                   ) : (
                     <p>No Messages Yet</p>
                   )}
@@ -553,9 +549,7 @@ export default function VideoMeetComponent() {
                 </div>
               </div>
             </div>
-          ) : (
-            <></>
-          )}
+          ) : null}
 
           <div className={styles.buttonContainers}>
             <IconButton onClick={handleVideo} style={{ color: "white" }}>
@@ -576,16 +570,14 @@ export default function VideoMeetComponent() {
                   <StopScreenShareIcon />
                 )}
               </IconButton>
-            ) : (
-              <></>
-            )}
+            ) : null}
 
             <Badge badgeContent={newMessages} max={999} color="orange">
               <IconButton
                 onClick={() => setModal(!showModal)}
                 style={{ color: "white" }}
               >
-                <ChatIcon />{" "}
+                <ChatIcon />
               </IconButton>
             </Badge>
           </div>
